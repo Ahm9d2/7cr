@@ -180,20 +180,12 @@
   </script>
 </body>
 </html>
-<form id="booking-form" action="https://formspree.io/f/xkgozznv" method="POST">
-    <label>البريد الإلكتروني:</label>
-    <input type="email" name="email" required>
-    
-    <label>التاريخ:</label>
-    <input type="date" name="date" required>
-    
-    <label>الوقت:</label>
-    <input type="time" name="time" required>
+<form action="https://formspree.io/f/xkgozznv" method="POST">
+    <input type="email" name="email" placeholder="أدخل بريدك" required>
+    <input type="text" name="message" placeholder="رسالتك" required>
+    <button type="submit">إرسال</button>
+</form>
 
-    <label>الملعب:</label>
-    <input type="text" name="field" required>
-
-    <button type="submit">إرسال الحجز</button>
 </form>
 
 <input type="email" id="email" required placeholder="البريد الإلكتروني">
