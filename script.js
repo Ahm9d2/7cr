@@ -121,3 +121,23 @@ document.addEventListener("DOMContentLoaded", function () {
     updateUI();
     calculatePrice(); // تحديث السعر عند تحميل الصفحة
 });
+(function() {
+    emailjs.init("service_zwcdiwa"); // ضع User ID من EmailJS هنا
+})();
+
+function sendEmail() {
+    let params = {
+        email: document.getElementById("email").value,
+        date: document.getElementById("date").value,
+        time: document.getElementById("time").value,
+        field: document.getElementById("field").value
+    };
+
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", params)
+        .then(function(response) {
+            alert("تم إرسال الحجز بنجاح!");
+        }, function(error) {
+            alert("حدث خطأ أثناء الإرسال: " + error);
+        });
+}
+
