@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حجز الملاعب - الصفحة الرئيسية</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- تضمين خط Tajawal -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- رأس الصفحة -->
+  <header>
+    <div class="logo">
+      <!-- استبدل logo.png بشعار موقعك -->
+      <a href="index.html"><img src="logo.png" alt="شعار الموقع"></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <!-- استبدل YOUR_LOCATION برابط موقعك في Google Maps -->
+        <li><a href="https://www.google.com/maps/place/YOUR_LOCATION" target="_blank">خريطة الموقع</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- المحتوى الرئيسي -->
+  <main>
+    <section class="booking-section">
+      <h1>حجز الملاعب</h1>
+      <div class="booking-form">
+        <!-- اختيار الملعب مع تحديد سعر الساعة لكل خيار -->
+        <div class="form-group">
+          <label for="stadiumSelect">اختر الملعب:</label>
+          <select id="stadiumSelect" onchange="calculatePrice()">
+            <option value="ملعب النخبة" data-price="15000">ملعب النخبة (15,000 ريال/ساعة)</option>
+            <option value="ملعب النجوم" data-price="20000">ملعب النجوم (20,000 ريال/ساعة)</option>
+            <option value="ملعب الأبطال" data-price="25000">ملعب الأبطال (25,000 ريال/ساعة)</option>
+          </select>
+        </div>
+
+        <!-- اختيار التاريخ -->
+        <div class="form-group">
+          <label for="bookingDate">اختر التاريخ:</label>
+          <input type="date" id="bookingDate">
+        </div>
+
+        <!-- اختيار الوقت -->
+        <div class="form-group">
+          <label for="timeSelect">اختر الوقت:</label>
+          <select id="timeSelect">
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+          </select>
+        </div>
+
+        <!-- اختيار مدة الحجز -->
+        <div class="form-group">
+          <label for="durationSelect">مدة الحجز (بالساعات):</label>
+          <select id="durationSelect" onchange="calculatePrice()">
+            <option value="1">1 ساعة</option>
+            <option value="2">2 ساعة</option>
+            <option value="3">3 ساعة</option>
+            <option value="4">4 ساعة</option>
+            <option value="5">5 ساعة</option>
+          </select>
+        </div>
+
+        <!-- إدخال البريد الإلكتروني -->
+        <div class="form-group">
+          <label for="emailInput">البريد الإلكتروني:</label>
+          <input type="email" id="emailInput" placeholder="example@gmail.com">
+        </div>
+
+        <!-- عرض السعر -->
+        <div class="price-display">
+          <p id="priceDisplay">السعر: 0 ريال</p>
+        </div>
+
+        <!-- زر تأكيد الحجز -->
+        <button onclick="confirmBooking()">تأكيد الحجز</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- تذييل الصفحة -->
+  <footer>
+    <p>&copy; 2025 جميع الحقوق محفوظة</p>
+  </footer>
+
+  <!-- سكريبت الحجز -->
+  <script>
+    // دالة حساب السعر بناءً على سعر الملعب والمدة
+    function calculatePrice(){
+      var stadiumSelect = document.getElementById("stadiumSelect");
+      var basePrice = parseInt(stadiumSelect.options[stadiumSelect.selectedIndex].getAttribute("data-price"));
+      var duration = parseInt(document.getElementById("durationSelect").value);
+      var totalPrice = basePrice * duration;
+      document.getElementById("priceDisplay").innerText = "السعر: " + totalPrice.toLocaleString() + " ريال";
+    }
+    // تحديث السعر عند تحميل الصفحة
+    calculatePrice();
+
+    // توليد رقم فاتورة عشوائي
+    function generateInvoiceNumber(){
+      return "INV" + Math.floor(100000 + Math.random() * 900000);
+    }
+
+    // دالة تأكيد الحجز وحفظ التفاصيل
+    function confirmBooking(){
+      var stadium = document.getElementById("stadiumSelect").value;
+      var bookingDate = document.getElementById("bookingDate").value;
+      var time = document.getElementById("timeSelect").value;
+      var duration = document.getElementById("durationSelect").value;
+      var email = document.getElementById("emailInput").value;
+      var stadiumSelect = document.getElementById("stadiumSelect");
+      var basePrice = parseInt(stadiumSelect.options[stadiumSelect.selectedIndex].getAttribute("data-price"));
+      var totalPrice = basePrice * parseInt(duration);
+
+      if(!bookingDate){
+        alert("يرجى اختيار التاريخ.");
+        return;
+      }
+      if(!email){
+        alert("يرجى إدخال البريد الإلكتروني.");
+        return;
+      }
+
+      var invoiceNumber = generateInvoiceNumber();
+
+      var bookingDetails = {
+        invoice: invoiceNumber,
+        stadium: stadium,
+        date: bookingDate,
+        time: time,
+        duration: duration,
+        price: totalPrice,
+        email: email
+      };
+
+      // حفظ التفاصيل لصفحة الدفع
+      localStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
+
+      // إرسال البريد الإلكتروني عبر السيرفر (تأكد من إعداد السيرفر المناسب)
+      sendEmail(bookingDetails);
+
+      // إعادة التوجيه إلى صفحة الدفع
+      window.location.href = "payment.html";
+    }
+
+    // دالة إرسال البريد الإلكتروني عبر السيرفر باستخدام fetch
+    function sendEmail(details){
+      fetch("http://localhost:3000/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: details.email,
+          invoice: details.invoice,
+          stadium: details.stadium,
+          date: details.date,
+          time: details.time,
+          duration: details.duration,
+          price: details.price
+        })
+      })
+      .then(response => response.text())
+      .then(data => console.log("تم إرسال البريد:", data))
+      .catch(error => console.error("خطأ في إرسال البريد:", error));
+    }
+  </script>
+</body>
+</html>

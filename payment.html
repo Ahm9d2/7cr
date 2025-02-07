@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صفحة الدفع - تفاصيل الحجز</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- تضمين خط Tajawal -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* تنسيقات إضافية لصفحة الدفع بتصميم فاخر */
+    .payment-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .payment-container h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .payment-details {
+      text-align: left;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .payment-details p {
+      margin: 10px 0;
+      font-size: 1.1em;
+      color: #555;
+    }
+    .pay-button {
+      display: inline-block;
+      background: #ff5a5f;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1.2em;
+      transition: background 0.3s ease;
+    }
+    .pay-button:hover {
+      background: #e04e50;
+    }
+  </style>
+</head>
+<body>
+  <!-- رأس الصفحة -->
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.png" alt="شعار الموقع"></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="https://www.google.com/maps/place/YOUR_LOCATION" target="_blank">خريطة الموقع</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- المحتوى الرئيسي -->
+  <main>
+    <div class="payment-container">
+      <h1>تفاصيل الحجز</h1>
+      <div class="payment-details" id="paymentDetails">
+        <!-- سيتم عرض تفاصيل الحجز هنا -->
+      </div>
+      <a href="#" class="pay-button" onclick="processPayment()">الدفع الآن</a>
+    </div>
+  </main>
+
+  <!-- تذييل الصفحة -->
+  <footer>
+    <p>&copy; 2025 جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    // استرجاع تفاصيل الحجز من localStorage
+    var details = JSON.parse(localStorage.getItem("bookingDetails"));
+    var paymentDiv = document.getElementById("paymentDetails");
+    if(details){
+      paymentDiv.innerHTML = `
+        <p><strong>رقم الفاتورة:</strong> ${details.invoice}</p>
+        <p><strong>الملعب:</strong> ${details.stadium}</p>
+        <p><strong>التاريخ:</strong> ${details.date}</p>
+        <p><strong>الوقت:</strong> ${details.time}</p>
+        <p><strong>مدة الحجز:</strong> ${details.duration} ساعة</p>
+        <p><strong>السعر:</strong> ${details.price.toLocaleString()} ريال</p>
+        <p><strong>البريد الإلكتروني:</strong> ${details.email}</p>
+      `;
+    } else {
+      paymentDiv.innerHTML = "<p>لا توجد تفاصيل حجز متاحة.</p>";
+    }
+    
+    function processPayment(){
+      // هذه الدالة يمكن ربطها ببوابة الدفع الحقيقية
+      alert("سيتم تحويلك إلى بوابة الدفع...");
+      // مثال لإعادة التوجيه:
+      // window.location.href = "https://yourpaymentgateway.com/pay?invoice=" + details.invoice;
+    }
+  </script>
+</body>
+</html>
