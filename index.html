@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حجز الملاعب - الصفحة الرئيسية</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.png" alt="شعار الموقع"></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="https://www.google.com/maps/place/YOUR_LOCATION" target="_blank">خريطة الموقع</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="booking-section">
+      <h1>حجز الملاعب</h1>
+      <div class="booking-form">
+        <div class="form-group">
+          <label for="stadiumSelect">اختر الملعب:</label>
+          <select id="stadiumSelect" onchange="calculatePrice()">
+            <option value="ملعب A" data-price="15">ملعب A (15 ريال/ساعة)</option>
+            <option value="ملعب B" data-price="15">ملعب B (15 ريال/ساعة)</option>
+            <option value="ملعب كامل" data-price="30">ملعب كامل (30 ريال/ساعة)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="bookingDate">اختر التاريخ:</label>
+          <input type="date" id="bookingDate">
+        </div>
+
+        <div class="form-group">
+          <label for="timeSelect">اختر الوقت:</label>
+          <select id="timeSelect">
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="durationSelect">مدة الحجز (بالساعات):</label>
+          <select id="durationSelect" onchange="calculatePrice()">
+            <option value="1">1 ساعة</option>
+            <option value="2">2 ساعة</option>
+            <option value="3">3 ساعات</option>
+            <option value="4">4 ساعات</option>
+            <option value="5">5 ساعات</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="emailInput">البريد الإلكتروني:</label>
+          <input type="email" id="emailInput" placeholder="example@gmail.com">
+        </div>
+
+        <div class="form-group">
+          <label for="phoneInput">رقم الهاتف:</label>
+          <input type="tel" id="phoneInput" placeholder="0501234567">
+        </div>
+        
+        <div class="price-display">
+          <p id="priceDisplay">السعر: 0 ريال</p>
+        </div>
+
+        <button onclick="confirmBooking()">تأكيد الحجز</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    function calculatePrice() {
+      var stadiumSelect = document.getElementById("stadiumSelect");
+      var basePrice = parseInt(stadiumSelect.options[stadiumSelect.selectedIndex].getAttribute("data-price"));
+      var duration = parseInt(document.getElementById("durationSelect").value);
+      var totalPrice = basePrice * duration;
+      document.getElementById("priceDisplay").innerText = "السعر: " + totalPrice + " ريال";
+    }
+    
+    calculatePrice();
+
+    function generateInvoiceNumber() {
+      var lastInvoiceNumber = localStorage.getItem("lastInvoiceNumber");
+      if (!lastInvoiceNumber || isNaN(lastInvoiceNumber)) {
+        lastInvoiceNumber = 1;
+      } else {
+        lastInvoiceNumber = parseInt(lastInvoiceNumber) + 1;
+      }
+      localStorage.setItem("lastInvoiceNumber", lastInvoiceNumber);
+      return "7CR" + lastInvoiceNumber;
+    }
+
+    function confirmBooking() {
+      var stadium = document.getElementById("stadiumSelect").value;
+      var bookingDate = document.getElementById("bookingDate").value;
+      var time = document.getElementById("timeSelect").value;
+      var duration = document.getElementById("durationSelect").value;
+      var email = document.getElementById("emailInput").value;
+      var phone = document.getElementById("phoneInput").value;
+      var stadiumSelect = document.getElementById("stadiumSelect");
+      var basePrice = parseInt(stadiumSelect.options[stadiumSelect.selectedIndex].getAttribute("data-price"));
+      var totalPrice = basePrice * parseInt(duration);
+
+      if (!bookingDate) {
+        alert("يرجى اختيار التاريخ.");
+        return;
+      }
+      if (!email) {
+        alert("يرجى إدخال البريد الإلكتروني.");
+        return;
+      }
+      if (!phone) {
+        alert("يرجى إدخال رقم الهاتف.");
+        return;
+      }
+
+      var invoiceNumber = generateInvoiceNumber();
+
+      var bookingDetails = {
+        invoice: invoiceNumber,
+        stadium: stadium,
+        date: bookingDate,
+        time: time,
+        duration: duration,
+        price: totalPrice,
+        email: email,
+        phone: phone
+      };
+
+      localStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
+      sendEmail(bookingDetails);
+      window.location.href = "payment.html";
+    }
+
+    function sendEmail(details) {
+      fetch("http://localhost:3000/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(details)
+      })
+      .then(response => response.text())
+      .then(data => console.log("تم إرسال البريد:", data))
+      .catch(error => console.error("خطأ في إرسال البريد:", error));
+    }
+  </script>
+</body>
+</html>

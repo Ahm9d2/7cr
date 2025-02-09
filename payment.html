@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صفحة الدفع - تفاصيل الحجز</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .payment-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .payment-container h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .payment-details {
+      text-align: left;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .payment-details p {
+      margin: 10px 0;
+      font-size: 1.1em;
+      color: #555;
+    }
+    .pay-button {
+      display: inline-block;
+      background: #ff5a5f;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1.2em;
+      transition: background 0.3s ease;
+    }
+    .pay-button:hover {
+      background: #e04e50;
+    }
+    .info-message {
+      font-size: 1.1em;
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.png" alt="شعار الموقع"></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="https://maps.app.goo.gl/sSKPJcFV4qJ4Wef18" target="_blank">موقع الملعب</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="payment-container">
+      <h1>تفاصيل الحجز</h1>
+      <div class="payment-details">
+        <!-- تم حذف رقم الفاتورة من هنا -->
+        <p><strong>رقم الهاتف:</strong> <span id="phoneInput"></span></p>
+        <p><strong>الملعب:</strong> <span id="stadium"></span></p>
+        <p><strong>التاريخ:</strong> <span id="bookingDate"></span></p>
+        <p><strong>الوقت:</strong> <span id="bookingTime"></span></p>
+        <p><strong>المدة:</strong> <span id="bookingDuration"></span> ساعة</p>
+        <p><strong>السعر:</strong> <span id="totalPrice"></span> ريال</p>
+        <p><strong>الموقع:</strong> <a id="locationLink" href="#" target="_blank">اضغط هنا لعرض الموقع</a></p>
+      </div>
+
+      <!-- رسالة تأكيد إرسال البيانات -->
+      <p class="info-message">تم إرسال باقي المعلومات إلى بريدك الإلكتروني.</p>
+  
+      <a href="https://payment-gateway-link.com" class="pay-button">إتمام الدفع</a>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    window.onload = function() {
+      // استرجاع تفاصيل الحجز من التخزين المحلي
+      const bookingDetails = JSON.parse(localStorage.getItem("bookingDetails"));
+  
+      if (bookingDetails) {
+        // تعبئة التفاصيل في الصفحة
+        // حذف رقم الفاتورة من هنا
+        document.getElementById("phoneInput").textContent = bookingDetails.phone || "غير متوفر";
+        document.getElementById("stadium").textContent = bookingDetails.stadium || "غير متوفر";
+        document.getElementById("bookingDate").textContent = bookingDetails.date || "غير متوفر";
+        document.getElementById("bookingTime").textContent = bookingDetails.time || "غير متوفر";
+        document.getElementById("bookingDuration").textContent = bookingDetails.duration || "غير متوفر";
+        document.getElementById("totalPrice").textContent = bookingDetails.price || "غير متوفر";
+        document.getElementById("locationLink").href = bookingDetails.location || "#";
+      } else {
+        alert("تفاصيل الحجز غير موجودة.");
+      }
+    }
+  </script>
+</body>
+</html>

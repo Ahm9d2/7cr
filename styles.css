@@ -1,0 +1,137 @@
+/* إعادة تعيين الأساسيات */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+    background: #f4f4f4;
+    color: #333;
+  }
+  
+  /* رأس الصفحة */
+  header {
+    background: #ffffff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  header .logo img {
+    height: 60px;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  nav ul li a:hover {
+    color: #ff5a5f;
+  }
+  
+  /* المحتوى الرئيسي */
+  main {
+    padding: 20px;
+  }
+  
+  /* نموذج الحجز */
+  .booking-section {
+    max-width: 800px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .booking-section h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .price-display {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .booking-form button {
+    padding: 12px;
+    background: #ff5a5f;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .booking-form button:hover {
+    background: #e04e50;
+  }
+  
+  /* تذييل الصفحة */
+  footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+  } 
+  
+  /* تصميم متجاوب لجميع الأجهزة */
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      gap: 10px;
+    }
+    nav ul {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .booking-section {
+      padding: 20px;
+    }
+    .booking-form {
+      width: 100%;
+    }
+    
+  }
+ 
